@@ -26,20 +26,6 @@ services:
     networks:
       - dokploy-network
       - default
-    labels:
-      - traefik.docker.network=dokploy-network
-      - traefik.http.routers.einvault-ddpep8-12-web.rule=Host(`einvault.codecraft302.pp.ua`)
-      - traefik.http.routers.einvault-ddpep8-12-web.entrypoints=web
-      - traefik.http.services.einvault-ddpep8-12-web.loadbalancer.server.port=3000
-      - traefik.http.routers.einvault-ddpep8-12-web.service=einvault-ddpep8-12-web
-      - traefik.http.routers.einvault-ddpep8-12-web.middlewares=redirect-to-https@file
-      - traefik.http.routers.einvault-ddpep8-12-websecure.rule=Host(`einvault.codecraft302.pp.ua`)
-      - traefik.http.routers.einvault-ddpep8-12-websecure.entrypoints=websecure
-      - traefik.http.services.einvault-ddpep8-12-websecure.loadbalancer.server.port=3000
-      - traefik.http.routers.einvault-ddpep8-12-websecure.service=einvault-ddpep8-12-websecure
-      - traefik.http.routers.einvault-ddpep8-12-websecure.tls.certresolver=letsencrypt
-      - traefik.enable=true
-
 volumes:
   einvault_data: null
 
