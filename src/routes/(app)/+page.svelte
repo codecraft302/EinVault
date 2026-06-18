@@ -358,7 +358,7 @@
 				<Button href="/companions/new" size="sm" class="shrink-0 gap-1.5">
 					<Plus class="h-4 w-4" />
 					<span class="hidden sm:inline">{t(locale, 'layout.addCompanion')}</span>
-					<span class="sm:hidden">Add</span>
+					<span class="sm:hidden">{t(locale, 'common.add')}</span>
 				</Button>
 			{/if}
 		{/snippet}

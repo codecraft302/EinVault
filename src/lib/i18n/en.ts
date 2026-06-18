@@ -5,6 +5,7 @@ const messages = {
 	'common.saved': 'Saved.',
 	'common.cancel': 'Cancel',
 	'common.delete': 'Delete',
+	'common.add': 'Add',
 	'common.edit': 'Edit',
 	'common.close': 'Close',
 	'common.loading': 'Loading…',
@@ -281,6 +282,9 @@ const messages = {
 	'page.settings.backupCodesTitle': 'Save your backup codes',
 	'page.settings.backupCodesIntro':
 		'Store these somewhere safe. Each code works once if you lose your authenticator.',
+	'page.settings.backupCodesCopy': 'Copy',
+	'page.settings.backupCodesCopied': '✓ Copied',
+	'page.settings.backupCodesDownload': 'Download',
 	'page.settings.backupCodesSaved': "I've saved my backup codes",
 	'page.settings.regenBackup': 'Regenerate backup codes',
 	'page.settings.disable2fa': 'Disable two-factor authentication',

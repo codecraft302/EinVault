@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   einvault:
@@ -7,16 +7,16 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     ports:
-      - "3000"
+      - '3000'
     environment:
       ORIGIN: https://einvault.codecraft302.pp.ua
       NODE_ENV: production
       DATABASE_URL: /data/einvault.db
-      UPLOAD_MAX_MB: "10"
-      VIDEO_MAX_MB: "100"
-      MAX_DAILY_MEDIA: "5"
-      MAX_DOCUMENTS_PER_COMPANION: "200"
-      REMINDER_UNDO_SECONDS: "7"
+      UPLOAD_MAX_MB: '10'
+      VIDEO_MAX_MB: '100'
+      MAX_DAILY_MEDIA: '5'
+      MAX_DOCUMENTS_PER_COMPANION: '200'
+      REMINDER_UNDO_SECONDS: '7'
       PAPERLESS_URL: ${PAPERLESS_URL}
       PAPERLESS_API_TOKEN: ${PAPERLESS_API_TOKEN}
       PAPERLESS_TAG_ID: ${PAPERLESS_TAG_ID}

@@ -38,8 +38,12 @@
 	</div>
 	<div class="flex gap-2">
 		<Button variant="outline" size="sm" onclick={handleCopy}>
-			{copied ? '✓ Copied' : 'Copy'}
+			{copied
+				? t(locale, 'page.settings.backupCodesCopied')
+				: t(locale, 'page.settings.backupCodesCopy')}
 		</Button>
-		<Button variant="outline" size="sm" onclick={handleDownload}>Download</Button>
+		<Button variant="outline" size="sm" onclick={handleDownload}>
+			{t(locale, 'page.settings.backupCodesDownload')}
+		</Button>
 	</div>
 </div>
