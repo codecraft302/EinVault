@@ -67,7 +67,7 @@ test('picker lists tagged docs and imports one', async ({ world, page }) => {
 	await page.goto(world.server.baseURL + EIN_DOCS_URL);
 
 	// Open the picker
-	await page.getByRole('button', { name: /add from paperless/i }).click();
+	await page.getByRole('button', { name: /add from paperless|додати з paperless/i }).click();
 
 	// Tag-scoped docs visible
 	await expect(page.getByRole('button', { name: /vaccination record/i })).toBeVisible({
@@ -93,6 +93,22 @@ test('picker lists tagged docs and imports one', async ({ world, page }) => {
 	expect(res.status()).toBe(200);
 	const body = await res.body();
 	expect(body.subarray(0, 4).toString()).toBe('%PDF');
+
+	// Paperless PDFs are rendered by pdf.js in EinVault. Regression check:
+	// the runtime resources pdf.js needs for scanned/OCR'd PDFs must be served
+	// by the app, otherwise production previews can be blank even when the PDF
+	// proxy returns valid bytes.
+	for (const assetPath of [
+		'/pdfjs-assets/wasm/jbig2.wasm',
+		'/pdfjs-assets/cmaps/Adobe-CNS1-UCS2.bcmap',
+		'/pdfjs-assets/standard_fonts/LiberationSans-Regular.ttf',
+		'/pdfjs-assets/standard_fonts/FoxitSerif.pfb',
+		'/pdfjs-assets/iccs/CGATS001Compat-v2-micro.icc'
+	]) {
+		const asset = await page.request.get(world.server.baseURL + assetPath);
+		expect(asset.status(), assetPath).toBe(200);
+		expect(Number(asset.headers()['content-length'] ?? '1'), assetPath).toBeGreaterThan(0);
+	}
 });
 
 test('search filters documents in the picker', async ({ world, page }) => {
@@ -101,7 +117,7 @@ test('search filters documents in the picker', async ({ world, page }) => {
 	await login(page, world.server.baseURL, SEED.member.username);
 	await page.goto(world.server.baseURL + EIN_DOCS_URL);
 
-	await page.getByRole('button', { name: /add from paperless/i }).click();
+	await page.getByRole('button', { name: /add from paperless|додати з paperless/i }).click();
 
 	// Wait for initial load
 	await expect(page.getByRole('button', { name: /vaccination record/i })).toBeVisible({
@@ -109,7 +125,7 @@ test('search filters documents in the picker', async ({ world, page }) => {
 	});
 
 	// Type in the search input
-	const searchInput = page.getByPlaceholder(/search documents/i);
+	const searchInput = page.getByPlaceholder(/search documents|пошук документів|шукати документи/i);
 	await expect(searchInput).toBeVisible();
 	await searchInput.fill('insurance');
 

@@ -27,6 +27,9 @@
 	let renderTask: { cancel: () => void } | null = null;
 
 	const isPdf = $derived(mimeType === 'application/pdf');
+	const pdfjsAssetBase = '/pdfjs-assets';
+	const maxCanvasSide = 16384;
+	const maxCanvasPixels = 64_000_000;
 
 	async function loadPdf() {
 		loading = true;
@@ -44,7 +47,13 @@
 			// param object is asserted to the getDocument signature.
 			const task = pdfjs.getDocument({
 				url,
-				isEvalSupported: false
+				isEvalSupported: false,
+				enableXfa: true,
+				cMapUrl: `${pdfjsAssetBase}/cmaps/`,
+				cMapPacked: true,
+				standardFontDataUrl: `${pdfjsAssetBase}/standard_fonts/`,
+				wasmUrl: `${pdfjsAssetBase}/wasm/`,
+				iccUrl: `${pdfjsAssetBase}/iccs/`
 			} as Parameters<typeof pdfjs.getDocument>[0]);
 			pdfDoc = await task.promise;
 			pageCount = pdfDoc.numPages;
@@ -67,7 +76,15 @@
 		const page = await pdfDoc.getPage(n);
 		const containerWidth = Math.min(900, dialogEl?.clientWidth ?? 900) - 48;
 		const baseViewport = page.getViewport({ scale: 1 });
-		const scale = (containerWidth / baseViewport.width) * (window.devicePixelRatio || 1);
+		const desiredScale = (containerWidth / baseViewport.width) * (window.devicePixelRatio || 1);
+		const desiredWidth = baseViewport.width * desiredScale;
+		const desiredHeight = baseViewport.height * desiredScale;
+		const sideLimit = Math.min(1, maxCanvasSide / Math.max(desiredWidth, desiredHeight));
+		const areaLimit = Math.min(
+			1,
+			Math.sqrt(maxCanvasPixels / Math.max(1, desiredWidth * desiredHeight))
+		);
+		const scale = desiredScale * Math.min(sideLimit, areaLimit);
 		const viewport = page.getViewport({ scale });
 		canvasEl.width = viewport.width;
 		canvasEl.height = viewport.height;
@@ -75,8 +92,17 @@
 		const ctx = canvasEl.getContext('2d')!;
 		const task = page.render({ canvasContext: ctx, viewport });
 		renderTask = task;
-		await task.promise.catch(() => {});
-		pageNum = n;
+		try {
+			await task.promise;
+			pageNum = n;
+		} catch (err) {
+			if ((err as Error)?.name !== 'RenderingCancelledException') {
+				console.error('[document-preview] render failed', err);
+				failed = true;
+			}
+		} finally {
+			if (renderTask === task) renderTask = null;
+		}
 	}
 
 	// Track only `open`/`isPdf` in the effect body. Cleanup runs on close/unmount.
@@ -152,9 +178,16 @@
 							<span class="text-sm">{t(locale, 'page.documents.previewLoading')}</span>
 						</div>
 					{:else if failed}
-						<p class="py-16 text-sm text-muted-foreground">
-							{t(locale, 'page.documents.previewFailed')}
-						</p>
+						<div class="w-full space-y-3">
+							<p class="text-sm text-muted-foreground">
+								{t(locale, 'page.documents.previewFailed')}
+							</p>
+							<iframe
+								src={url}
+								title={title}
+								class="h-[75vh] w-full rounded border border-border bg-background shadow"
+							></iframe>
+						</div>
 					{:else}
 						<canvas bind:this={canvasEl} class="rounded shadow max-w-full"></canvas>
 					{/if}
@@ -163,7 +196,7 @@
 				{/if}
 			</div>
 
-			{#if isPdf && pageCount > 1}
+			{#if isPdf && !failed && pageCount > 1}
 				<div class="flex items-center justify-center gap-3 px-5 py-2.5 border-t border-border">
 					<Button
 						variant="soft"
