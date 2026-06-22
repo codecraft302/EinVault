@@ -5,20 +5,22 @@ import de from './de';
 import es from './es';
 import fr from './fr';
 import pt from './pt';
+import uk from './uk';
 import type { MessageKey } from './en';
 
 export type { MessageKey };
-export type Locale = 'en' | 'it' | 'de' | 'es' | 'fr' | 'pt';
+export type Locale = 'en' | 'it' | 'de' | 'es' | 'fr' | 'pt' | 'uk';
 
-export const SUPPORTED_LOCALES: Locale[] = ['de', 'en', 'es', 'fr', 'it', 'pt'];
-export const DEFAULT_LOCALE: Locale = 'en';
+export const SUPPORTED_LOCALES: Locale[] = ['de', 'en', 'es', 'fr', 'it', 'pt', 'uk'];
+export const DEFAULT_LOCALE: Locale = 'uk';
 export const LOCALE_LABELS: Record<Locale, string> = {
 	en: 'English',
 	it: 'Italiano',
 	de: 'Deutsch',
 	es: 'Español',
 	fr: 'Français',
-	pt: 'Português'
+	pt: 'Português',
+	uk: 'Українська'
 };
 
 const catalogs: Record<Locale, Record<string, string>> = {
@@ -27,7 +29,8 @@ const catalogs: Record<Locale, Record<string, string>> = {
 	de,
 	es,
 	fr,
-	pt
+	pt,
+	uk
 };
 
 /** Resolve a raw string to a supported locale. */

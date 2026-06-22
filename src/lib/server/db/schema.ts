@@ -30,9 +30,9 @@ export const users = sqliteTable(
 		theme: text('theme', { enum: ['light', 'dark', 'system'] })
 			.notNull()
 			.default('system'),
-		locale: text('locale', { enum: ['en', 'it', 'de', 'es', 'fr', 'pt'] })
+		locale: text('locale', { enum: ['en', 'it', 'de', 'es', 'fr', 'pt', 'uk'] })
 			.notNull()
-			.default('en'),
+			.default('uk'),
 		email: text('email'),
 		phone: text('phone'),
 		oidcSubject: text('oidc_subject'),

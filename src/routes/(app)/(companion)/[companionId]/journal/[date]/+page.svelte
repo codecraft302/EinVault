@@ -712,7 +712,7 @@
 									class="h-3 w-3 transition-transform group-open:rotate-90"
 									aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg
 								>
-								Markdown supported
+								{t(locale, 'component.markdown.markdownSupported')}
 							</summary>
 							<div
 								class="absolute right-0 top-full z-20 mt-2 w-72 rounded-md border border-border bg-popover px-3 py-2.5 text-xs space-y-1.5 shadow-lg"
@@ -721,37 +721,43 @@
 									<code class="font-mono text-[11px] text-foreground/70 whitespace-nowrap"
 										>**bold**</code
 									>
-									<span><strong>bold</strong></span>
+									<span><strong>{t(locale, 'component.markdown.cheatsheet.bold')}</strong></span>
 
 									<code class="font-mono text-[11px] text-foreground/70 whitespace-nowrap"
 										>_italic_</code
 									>
-									<span><em>italic</em></span>
+									<span><em>{t(locale, 'component.markdown.cheatsheet.italic')}</em></span>
 
 									<code class="font-mono text-[11px] text-foreground/70 whitespace-nowrap"
 										>## Heading</code
 									>
-									<span class="font-semibold text-sm">Heading</span>
+									<span class="font-semibold text-sm"
+										>{t(locale, 'component.markdown.cheatsheet.heading')}</span
+									>
 
 									<code class="font-mono text-[11px] text-foreground/70 whitespace-nowrap"
 										>- item</code
 									>
-									<span>bullet list item</span>
+									<span>{t(locale, 'component.markdown.cheatsheet.bulletItem')}</span>
 
 									<code class="font-mono text-[11px] text-foreground/70 whitespace-nowrap"
 										>1. item</code
 									>
-									<span>numbered list item</span>
+									<span>{t(locale, 'component.markdown.cheatsheet.numberedItem')}</span>
 
 									<code class="font-mono text-[11px] text-foreground/70 whitespace-nowrap"
 										>&gt; note</code
 									>
-									<span class="border-l-2 border-border pl-2 text-muted-foreground">note</span>
+									<span class="border-l-2 border-border pl-2 text-muted-foreground"
+										>{t(locale, 'component.markdown.cheatsheet.blockquote')}</span
+									>
 
 									<code class="font-mono text-[11px] text-foreground/70 whitespace-nowrap"
 										>[text](url)</code
 									>
-									<span class="text-primary underline">link text</span>
+									<span class="text-primary underline"
+										>{t(locale, 'component.markdown.cheatsheet.link')}</span
+									>
 								</div>
 							</div>
 						</details>

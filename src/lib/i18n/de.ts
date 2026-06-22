@@ -6,6 +6,7 @@ const messages: Record<keyof Messages, string> = {
 	'common.saving': 'Speichern…',
 	'common.saved': 'Gespeichert.',
 	'common.cancel': 'Abbrechen',
+	'common.add': 'Hinzufügen',
 	'common.delete': 'Löschen',
 	'common.edit': 'Bearbeiten',
 	'common.close': 'Schließen',
@@ -297,6 +298,9 @@ const messages: Record<keyof Messages, string> = {
 	'page.settings.backupCodesTitle': 'Speichere deine Backup-Codes',
 	'page.settings.backupCodesIntro':
 		'Bewahre sie sicher auf. Jeder Code kann einmal verwendet werden, falls du deinen Authenticator verlierst.',
+	'page.settings.backupCodesCopy': 'Kopieren',
+	'page.settings.backupCodesCopied': '✓ Kopiert',
+	'page.settings.backupCodesDownload': 'Herunterladen',
 	'page.settings.backupCodesSaved': 'Ich habe meine Backup-Codes gespeichert',
 	'page.settings.regenBackup': 'Backup-Codes neu generieren',
 	'page.settings.disable2fa': 'Zwei-Faktor-Authentifizierung deaktivieren',
